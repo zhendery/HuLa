@@ -47,21 +47,21 @@ jobs:
       run: |
         pnpm add -g @tauri-apps/cli
 
-    - name: Build Android APK
-      uses: tauri-apps/tauri-action@v0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tagName: app-v__VERSION__
-        releaseName: "App v__VERSION__"
-        releaseBody: "Download and install this version."
-        releaseDraft: true
-        prerelease: false
-        args: --target aarch64-linux-android
+    # - name: Build Android APK
+    #   uses: tauri-apps/tauri-action@v0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tagName: app-v__VERSION__
+    #     releaseName: "App v__VERSION__"
+    #     releaseBody: "Download and install this version."
+    #     releaseDraft: true
+    #     prerelease: false
+    #     args: --target aarch64-linux-android
 
-    # - name: Init Android Project
-    #   run: |
-    #     pnpm run tauri:android:init
+    - name: Init Android Project
+      run: |
+        pnpm run tauri android:init
 
     # - name: Build Android APK
     #   run: |
