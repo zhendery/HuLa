@@ -88,7 +88,8 @@ jobs:
 
     - name: Init Android Project
       run: |
-        pnpm run tauri:android:init
+        # pnpm run tauri:android:init
+        pnpm run tauri:android:dev
 
     # - name: Build Android APK
     #   run: |
