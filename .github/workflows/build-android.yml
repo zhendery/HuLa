@@ -105,12 +105,12 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: android-apk
-        path: src-tauri/target/aarch64-linux-android/release/bundle/apk/*.apk
+        path: src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
         if-no-files-found: error
 
     - name: Upload bundle artifact
       uses: actions/upload-artifact@v4
       with:
         name: android-bundle
-        path: src-tauri/target/aarch64-linux-android/release/bundle
+        path: src-tauri/gen/android/app/build/outputs/bundle/universalRelease
         if-no-files-found: error
