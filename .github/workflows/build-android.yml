@@ -32,6 +32,13 @@ jobs:
     - name: Set up environment variables
       run: echo "${{ secrets.ENV_LOCAL_CONTENT }}" > .env.local
 
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin' # 可选：'zulu', 'corretto'等
+        java-version: '17'
+        cache: 'gradle' # 可选：缓存依赖以加速后续构建
+
     # 安装 pnpm
     - name: Install pnpm
       uses: pnpm/action-setup@v4
