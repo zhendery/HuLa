@@ -28,9 +28,9 @@ jobs:
         # 验证安装的包
         dpkg -l | grep -E 'webkit|appindicator|rsvg|udev|asound|gtk'
 
-    # 添加环境变量配置
-    - name: Set up environment variables
-      run: echo "${{ secrets.ENV_LOCAL_CONTENT }}" > .env.local
+    # # 添加环境变量配置
+    # - name: Set up environment variables
+    #   run: echo "${{ secrets.ENV_LOCAL_CONTENT }}" > .env.local
 
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -81,18 +81,6 @@ jobs:
       run: |
         rustup target add aarch64-linux-android
 
-    # - name: Build Android APK
-    #   uses: tauri-apps/tauri-action@v0
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     tagName: app-v__VERSION__
-    #     releaseName: "App v__VERSION__"
-    #     releaseBody: "Download and install this version."
-    #     releaseDraft: true
-    #     prerelease: false
-    #     args: --target aarch64-linux-android
-
     - name: Init Android Project
       run: |
         pnpm exec tauri android init
@@ -101,16 +89,20 @@ jobs:
       run: |
         pnpm exec tauri android build
 
+    - uses: Tlaster/android-sign@v1
+      name: Sign app APK
+      with:
+        releaseDirectory: |
+          src-tauri/gen/android/app/build/outputs/apk/universal/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        output: src-tauri/gen/android/app/build/outputs/apk/universal/release/signed
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: android-apk
-        path: src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
-        if-no-files-found: error
-
-    - name: Upload bundle artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: android-bundle
-        path: src-tauri/gen/android/app/build/outputs/bundle/universalRelease
+        path: src-tauri/gen/android/app/build/outputs/apk/universal/release/signed/*.apk
         if-no-files-found: error
