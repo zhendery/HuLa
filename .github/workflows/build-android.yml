@@ -106,3 +106,5 @@ jobs:
         name: android-apk
         path: src-tauri/gen/android/app/build/outputs/apk/universal/release/signed/*.apk
         if-no-files-found: error
+      env:
+        BUILD_TOOLS_VERSION: "30.0.2"
